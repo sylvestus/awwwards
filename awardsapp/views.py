@@ -6,6 +6,7 @@ from .forms import newPost,ratesForm,UprofileForm,UuserForm
 from awardsapp.models import Post,Ratings,Profile,User
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 
 from rest_framework.response import Response
@@ -14,6 +15,7 @@ from rest_framework import status
 from .serializer import PostSerializer,ProfileSerializer
 
 # Create your views here.
+@login_required(login_url='/accounts/login/')
 def profile(request):
     current_user = request.user
     projects = Profile.objects.filter(user=current_user.id).all
@@ -49,7 +51,7 @@ class PostList(APIView):
             return Response(serializers.data, status=status.HTTP_201_CREATED)
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+@login_required(login_url='/accounts/login/')
 def uprofile(request, id):
     current_user = request.user
     user_object = get_object_or_404(User, id=id)
@@ -64,13 +66,14 @@ def uprofile(request, id):
     return render(
         request, "uprofile.html",{"profile_update": profile_update, "user_update": user_update})
 
-
+@login_required(login_url='/accounts/login/')
 def landingPage(request):
     message='welcome to the landing page'
     projects = Post.objects.all()
 
     return render(request,'landingPage.html',{'message':message,'projects':projects})
 
+@login_required(login_url='/accounts/login/')
 def more_on_pic(request,id):
     project = Post.objects.get(id=id)
     rate = Ratings.objects.filter(user=request.user, post=project).first()
@@ -105,7 +108,7 @@ def more_on_pic(request,id):
 
 
 
-
+@login_required(login_url='/accounts/login/')
 def rate(request):
 
     if request.method == "POST":
@@ -142,7 +145,7 @@ def rate(request):
     #     form=ratesForm()
 
     # return render(request,'rate.html',{'message':message,"ratesForm":form})
-
+@login_required(login_url='/accounts/login/')
 def new_post(request):
     current_user = request.user
 
@@ -162,7 +165,7 @@ def new_post(request):
         form = newPost()
     return render(request, "new_post.html", {"postForm": form})
 
-
+@login_required(login_url='/accounts/login/')
 def profile(request):
     message='user profile'
     return render(request,'profile.html',{'message':message}) 
