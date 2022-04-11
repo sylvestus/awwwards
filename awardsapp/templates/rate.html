@@ -1,0 +1,16 @@
+{%extends 'base.html'%}
+{% block content %}
+{%load bootstrap4%}
+{{block.super}}
+{%if ratesForm%}
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form ratesForm %}
+    <button class="btn btn-sm btn-info btn-block" style="margin-top:4px;" value="review"
+        type="submit">Rate</button>
+</form>
+{%else%}
+no form
+{%endif%}
+
+{%endblock%}
