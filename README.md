@@ -1,4 +1,4 @@
-# Instagram App
+# Awwwards
 ## Author
 [**sylvestus sigei**](https://github.com/sylvestus)
 ## Description
